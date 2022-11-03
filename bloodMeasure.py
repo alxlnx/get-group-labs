@@ -11,9 +11,9 @@ GPIO.setmode(GPIO.BCM)
 
 b.initSpiAdc()
 
-PRESSURE_LOWER_BOUND = 250
+PRESSURE_LOWER_BOUND = 350
 
-is_calibrating = True
+is_calibrating = False
 if is_calibrating == False:
     try:
         samples = []
@@ -51,8 +51,7 @@ else:
 
             if now - start >= 10:
                 break
-                
-        
+                 
         finish = time.time()
 
         b.save(samples, start, finish)
