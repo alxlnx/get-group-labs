@@ -13,6 +13,6 @@ x = [0, 40, 80, 120, 160]
 k, b = np.polyfit(x, y, 1)
 print(k, b)
 
-val = np.linspace(0, 1000, 1000)
-plt.plot(val, k * val + b)
-plt.show()
+# val = np.linspace(0, 1000, 1000)
+# plt.plot(val, k * val + b)
+# plt.show()

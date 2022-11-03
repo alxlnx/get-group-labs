@@ -5,15 +5,17 @@ import bloodFunctions as b
 
 GPIO.setmode(GPIO.BCM)
 
+# This setup (idk what exactly should go here)
+# was done beforehand by one the teachers.
 # GPIO.setup(9,  ) 
 # GPIO.setup(10, )
 # GPIO.setup(11, )
 
 b.initSpiAdc()
 
-PRESSURE_LOWER_BOUND = 350
+PRESSURE_LOWER_BOUND = 350  # Pressure, after which the measurements are stopped.
 
-is_calibrating = False
+is_calibrating = False      # Since we have a separate routine for calibration.
 if is_calibrating == False:
     try:
         samples = []
