@@ -1,31 +1,40 @@
 #!/usr/bin/python3
 import numpy as np
 import matplotlib.pyplot as plt
-import imageio
+import imageio.v3 as iio
 from cycler import cycler
 
 def readIntensity(photoName, plotName, lamp, surface):
-    photo = imageio.imread(photoName)
-    background = photo[350:635, 850:960, 0:3].swapaxes(0, 1)
+    """
+        photoName: image name of data to process
+        plotName: image name of where to save data to
+        lamp: lamp type (showed on the resulting graph)
+        surface: surface color (showed on the resulting graph)
+        RETURNS
+        np.ndarray
+    """
+    photo = iio.imread(photoName)
+    background = photo[425:825, 800:1100, 0:3].swapaxes(0, 1)  # Cut the pic and 90def clockwise rotation.
     
-    cut = photo[350:835, 850:960, 0:3].swapaxes(0, 1)
+    cut = photo[425:825, 800:1100, 0:3].swapaxes(0, 1)
     rgb = np.mean(cut, axis=(0))
     luma = 0.2989 * rgb[:, 0] + 0.5866 * rgb[:, 1] + 0.1144 * rgb[:, 2]
 
-    plt.rc('axes', prop_cycle=(cycler('color', ['r', 'g', 'b'])))
+    # Set rc 'axes' to prop_cycle, now the property 'color' will cycle through 'r', 'g', 'b'
+    plt.rc('axes', prop_cycle=( cycler('color', ['r', 'g', 'b']) ) )
 
-    fig = plt.figure(figsize=(10, 5), dpi=200)
+    fig, ax = plt.subplots(figsize=(10, 5), dpi=200)
 
-    plt.title('Интенсивность отражённого излучения\n' + '{} / {}'.format(lamp, surface))
-    plt.xlabel('Относительный номер пикселя')
-    plt.ylabel('Яркость')
+    ax.set_title(f'Интенсивность отражённого излучения\n {lamp} / {surface}')
+    ax.set_xlabel('Относительный номер пикселя')
+    ax.set_ylabel('Яркость')
 
-    plt.plot(rgb, label=['r', 'g', 'b'])
-    plt.plot(luma, 'w', label='I')
-    plt.legend()
+    ax.grid('--')
+    ax.plot(rgb, label=['r', 'g', 'b'])
+    ax.plot(luma, 'w', label='I')
+    ax.legend()
     
-    plt.imshow(background, origin='lower')
-    
+    ax.imshow(background, origin='lower')
     
     plt.savefig(plotName)
 

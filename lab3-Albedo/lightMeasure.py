@@ -1,13 +1,14 @@
-#!/usr/bin/python3
-#  NOT REALLY MEASURING ANYTHING, IDK WHY THE FILE HAS THIS NAME
+from time import sleep
+from picamera import PiCamera
 
-import lightFunctions as j
+camera = PiCamera()
+camera.brightness = 53
 
-photoNames =  [ "mercury_white.png",
-                "filament_blue_11.png",
-                "filament_green_11.png",
-                "filament_red_11.png",
-                "filament_white_11.png",
-                "filament_yellow_11.png" ]
+camera.start_preview() # Camera warm-up time
+sleep(2)
+camera.capture('mercury_white_(2).png') # Take a picture
 
-j.readIntensity(photoNames[5], "test.png", "mercury", "white")
+#camera.stop_preview()
+
+# camera.resolution = (1280, 720)
+# camera.contrast = 10

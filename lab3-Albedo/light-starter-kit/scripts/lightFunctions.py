@@ -5,9 +5,9 @@ from cycler import cycler
 
 def readIntensity(photoName, plotName, lamp, surface):
     photo = imageio.imread(photoName)
-    background = photo[480:1030, 1130:1385, 0:3].swapaxes(0, 1)
+    background = photo[350:635, 850:960, 0:3].swapaxes(0, 1)
     
-    cut = photo[480:1030, 1170:1350, 0:3].swapaxes(0, 1)
+    cut = photo[350:635, 850:960, 0:3].swapaxes(0, 1)
     rgb = np.mean(cut, axis=(0))
     luma = 0.2989 * rgb[:, 0] + 0.5866 * rgb[:, 1] + 0.1144 * rgb[:, 2]
 
