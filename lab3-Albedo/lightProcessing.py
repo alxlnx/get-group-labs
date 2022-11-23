@@ -68,7 +68,7 @@ for px in range( len(luma_mercury) ):
     λ = k * px + b
     λs.append(λ)
 
-
+# Настройка графика.
 fig, ax = plt.subplots( figsize=(10, 5), dpi=200 )
 ax.minorticks_on()
 ax.set_facecolor('#EDEDED')
@@ -118,7 +118,7 @@ albedoes = {'blue':   [],
 # Альбедо белого листа примем за 1, хотя это и не совсем так.
 for i in range(len(luma_white)):
     albedoes['white'].append(1)
-# Синий:
+# Синий
 for i in range(len(luma_blue)):
     if luma_white[i] == 0 or luma_blue[i] < 0.05:
         albedo = 0
@@ -141,8 +141,12 @@ for i in range(len(luma_yellow)):
     if luma_white[i] == 0 or luma_yellow[i] < 0.05:
         albedo = 0
     else: albedo = luma_yellow[i] / luma_white[i]
+
+    ### НА НЕКОТОРЫХ ПИКСЕЛЯХ РЕЗУЛЬТАТ ЗАШКАЛИВАЕТ
     if albedo > 1.5:
       albedo = 1
+    ###
+    
     albedoes['yellow'].append(albedo)
 
 ## Настройка графика

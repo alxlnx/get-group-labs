@@ -18,12 +18,13 @@ def readIntensity(photoName, plotName, lamp, surface):
     
     cut = photo[425:825, 800:1100, 0:3].swapaxes(0, 1)
 
-    # HANDLE INCORRECT IMAGES:
+    ### HANDLE INCORRECT IMAGES:
     # If rgb of pixel is less than (15, 15, 15), then rgb = (0, 0, 0)
     with np.nditer(cut, op_flags=['readwrite']) as it:
       for x in it:
         if x < 25:
           x[...] = 0
+    ### Remove the part above if you want to recreate original behavior (i.e. "RAW")
 
     rgb = np.mean(cut, axis=(0))
 
