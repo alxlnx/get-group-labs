@@ -19,7 +19,7 @@ for name in photoNames:
     lamp_type = name[begin_idx + 1:lamp_end_idx]
     color_type = name[lamp_end_idx + 1:color_end_idx]
 
-    inten = liFu.readIntensity(f'{name}.png', f"{name}_G.png", f"{lamp_type}", f"{color_type}")
+    inten = liFu.readIntensity(f'{name}.png', f"{name}_G_COOKED.png", f"{lamp_type}", f"{color_type}")
     intensities.append(inten)
 
 ### Калибровка ###
@@ -95,7 +95,7 @@ ax.plot(λs, luma_white,  color='white',  label='Белый лист',   linewid
 ax.plot(λs, luma_yellow, color='yellow', label='Жёлтый лист',  linewidth=LINE_WIDTH)
 ax.legend()
 
-plt.savefig('!INTENSITIES.png')
+plt.savefig('!INTENSITIES_COOKED.png')
 
 ### Построение графиков зависимости альбедо от λ ###
 albedoes = {'blue':   [],
@@ -120,29 +120,32 @@ for i in range(len(luma_white)):
     albedoes['white'].append(1)
 # Синий:
 for i in range(len(luma_blue)):
-    albedo = luma_blue[i] / luma_white[i]
     if luma_white[i] == 0 or luma_blue[i] < 0.05:
         albedo = 0
+    else: albedo = luma_blue[i] / luma_white[i]
     albedoes['blue'].append(albedo)
 # Зелёный
 for i in range(len(luma_green)):
-    albedo = luma_green[i] / luma_white[i]
     if luma_white[i] == 0 or luma_green[i] < 0.05:
         albedo = 0
+    else: albedo = luma_green[i] / luma_white[i]
     albedoes['green'].append(albedo)
 # Красный
 for i in range(len(luma_red)):
-    albedo = luma_red[i] / luma_white[i]
     if luma_white[i] == 0 or luma_red[i] < 0.05:
         albedo = 0
+    else: albedo = luma_red[i] / luma_white[i]
     albedoes['red'].append(albedo)
 # Жёлтый
 for i in range(len(luma_yellow)):
-    albedo = luma_yellow[i] / luma_white[i]
     if luma_white[i] == 0 or luma_yellow[i] < 0.05:
         albedo = 0
+    else: albedo = luma_yellow[i] / luma_white[i]
+    if albedo > 1.5:
+      albedo = 1
     albedoes['yellow'].append(albedo)
 
+## Настройка графика
 fig, ax = plt.subplots( figsize=(10, 5), dpi=200 )
 ax.minorticks_on()
 ax.set_facecolor('#EDEDED')
@@ -155,12 +158,12 @@ ax.set_ylabel('Альбедо', **font)
 ax.set_title('Рис 2. Зависимость альбедо поверхностей от длины волны падающего света', **font)
 
 LINE_WIDTH = 2
-#ax.plot(λs, albedoes['blue'],   color='blue',   label='Синий лист',   linewidth=LINE_WIDTH)
-#ax.plot(λs, albedoes['green'],  color='green',  label='Зелёный лист', linewidth=LINE_WIDTH)
-#ax.plot(λs, albedoes['red'],    color='red',    label='Красный лист', linewidth=LINE_WIDTH)
-#ax.plot(λs, albedoes['white'],  color='white',  label='Белый лист',   linewidth=LINE_WIDTH)
+ax.plot(λs, albedoes['blue'],   color='blue',   label='Синий лист',   linewidth=LINE_WIDTH)
+ax.plot(λs, albedoes['green'],  color='green',  label='Зелёный лист', linewidth=LINE_WIDTH)
+ax.plot(λs, albedoes['red'],    color='red',    label='Красный лист', linewidth=LINE_WIDTH)
+ax.plot(λs, albedoes['white'],  color='white',  label='Белый лист',   linewidth=LINE_WIDTH)
 ax.plot(λs, albedoes['yellow'], color='yellow', label='Жёлтый лист',  linewidth=LINE_WIDTH)
-ax.legend()
+ax.legend(loc='upper left')
 
-plt.savefig('!ALBEDOES.png')
+plt.savefig('!ALBEDOES_COOKED.png')
 fig.show()

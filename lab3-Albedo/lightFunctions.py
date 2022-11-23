@@ -17,7 +17,16 @@ def readIntensity(photoName, plotName, lamp, surface):
     background = photo[425:825, 800:1100, 0:3].swapaxes(0, 1)  # Cut the pic and 90def clockwise rotation.
     
     cut = photo[425:825, 800:1100, 0:3].swapaxes(0, 1)
+
+    # HANDLE INCORRECT IMAGES:
+    # If rgb of pixel is less than (15, 15, 15), then rgb = (0, 0, 0)
+    with np.nditer(cut, op_flags=['readwrite']) as it:
+      for x in it:
+        if x < 25:
+          x[...] = 0
+
     rgb = np.mean(cut, axis=(0))
+
     luma = 0.2989 * rgb[:, 0] + 0.5866 * rgb[:, 1] + 0.1144 * rgb[:, 2]
 
     # Set rc 'axes' to prop_cycle, now the property 'color' will cycle through 'r', 'g', 'b'
