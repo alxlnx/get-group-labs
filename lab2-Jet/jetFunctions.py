@@ -79,11 +79,11 @@ def stepBackward(n):
 ########################################
 
 def save(measures, motorSteps):
-    filename = 'jet-data {}.txt'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    filename = 'jet-data {}.txt'.format(time.strftime('%Y-%m-%d %H_%M_%S', time.localtime(time.time())))
 
     with open(filename, "w") as outfile:
         outfile.write('- Jet Lab\n')
-        outfile.write('- Date: {}\n'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
+        outfile.write('- Date: {}\n'.format(time.strftime('%Y-%m-%d %H_%M_%S', time.localtime(time.time()))))
         outfile.write('- Step: {} motor steps\n'.format(motorSteps))
         
         np.savetxt(outfile, np.array(measures).T, fmt='%d')
